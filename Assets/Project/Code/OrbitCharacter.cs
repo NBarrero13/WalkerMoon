@@ -46,11 +46,20 @@ public class OrbitCharacter : MonoBehaviour
 
     void Update()
     {
-        if(!isMoving && input.JumpPressed)
+
+        bool jumpPressed = input.ConsumeJumpPressed();
+
+        if (!isMoving && jumpPressed)
         {
             isMoving = true;
             startMove = true;
             return;
+        }
+
+        if (!isJumping && jumpPressed && startMove)
+        {
+            isJumping = true;
+            verticalVelocity = jumpForce;
         }
 
         if (isMoving)
@@ -80,12 +89,6 @@ public class OrbitCharacter : MonoBehaviour
 
         float angleDegrees = angle * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angleDegrees - 90f);
-
-        if (input.JumpPressed && !isJumping && startMove == true)
-        {
-            isJumping = true;
-            verticalVelocity = jumpForce;
-        }
     }
 }
 

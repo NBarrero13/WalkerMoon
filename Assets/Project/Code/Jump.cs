@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
-    public bool JumpPressed { get; private set; }
+    private bool jumpRequested;
+
+    public bool ConsumeJumpPressed()
+    {
+        if(jumpRequested)
+        { 
+            jumpRequested = false;
+            return true;
+        }
+        return false;   
+    }
+
+    public bool IsJumpPressed()
+    {
+        return jumpRequested;
+    }
 
     void Update()
     {
-        JumpPressed = DetectInput();
+        if (!jumpRequested)
+        {
+            jumpRequested = DetectInput();
+        }
     }
 
     bool DetectInput()
@@ -21,7 +39,7 @@ public class Jump : MonoBehaviour
         else
         {
             // Espacio o clic izquierdo
-            return Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
+            return Input.GetKeyDown(KeyCode.Space) /*|| Input.GetMouseButtonDown(0)*/;
         }
     }
 }
